@@ -11,15 +11,18 @@
 		$password = $_POST['password'];
 		$password = stripslashes($password);
 		$password = addslashes($password);
+
+		$str="SELECT name from user WHERE name='$name'";
+		$result=mysqli_query($con,$str);
 		
 		if((mysqli_num_rows($result))>0)	
 		{
-            echo "<center><h3><script>alert('Sorry.. This email is already registered !!');</script></h3></center>";
+            echo "<center><h3><script>alert('Sorry.. This Username is already registered !!');</script></h3></center>";
             header("refresh:0;url=login.php");
         }
 		else
 		{
-            $str="insert into user set name='$name',email='$email',password='$password',college='$college'";
+            $str="insert into user set name='$name',password='$password'";
 			if((mysqli_query($con,$str)))	
 			echo "<center><h3><script>alert('Congrats.. You have successfully registered !!');</script></h3></center>";
 			header('location: welcome.php?q=1');

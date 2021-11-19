@@ -1,14 +1,13 @@
 <?php
     include_once 'database.php';
     session_start();
-    if(!(isset($_SESSION['email'])))
+    if(!(isset($_SESSION['name'])))
     {
         header("location:login.php");
     }
     else
     {
         $name = $_SESSION['name'];
-        $email = $_SESSION['email'];
         include_once 'database.php';
     }
 ?>
@@ -75,16 +74,15 @@
                     $c=0;
                     while($row=mysqli_fetch_array($q) )
                     {
-                        $e=$row['email'];
+                        $n=$row['name'];
                         $s=$row['score'];
-                        $q12=mysqli_query($con,"SELECT * FROM user WHERE email='$e' " )or die('Error231');
+                        $q12=mysqli_query($con,"SELECT * FROM user WHERE name='$n' " )or die('Error231');
                         while($row=mysqli_fetch_array($q12) )
                         {
                             $name=$row['name'];
-                            $college=$row['college'];
                         }
                         $c++;
-                        echo '<tr><td style="color:#99cc32"><center><b>'.$c.'</b></center></td><td><center>'.$e.'</center></td><td><center>'.$s.'</center></td>';
+                        echo '<tr><td style="color:#99cc32"><center><b>'.$c.'</b></center></td><td><center>'.$n.'</center></td><td><center>'.$s.'</center></td>';
                     }
                     echo '</table></div></div>';
                 }
@@ -94,14 +92,12 @@
                     {
                         $result = mysqli_query($con,"SELECT * FROM user") or die('Error');
                         echo  '<div class="panel"><div class="table-responsive"><table class="table table-striped title1">
-                        <tr><td><center><b>S.N.</b></center></td><td><center><b>Name</b></center></td><td><center><b>College</b></center></td><td><center><b>Email</b></center></td><td><center><b>Action</b></center></td></tr>';
+                        <tr><td><center><b>S.N.</b></center></td><td><center><b>Username</b></center></td><td><center><b>Action</b></center></td></tr>';
                         $c=1;
                         while($row = mysqli_fetch_array($result)) 
                         {
                             $name = $row['name'];
-                            $email = $row['email'];
-                            $college = $row['college'];
-                            echo '<tr><td><center>'.$c++.'</center></td><td><center>'.$name.'</center></td><td><center>'.$college.'</center></td><td><center>'.$email.'</center></td><td><center><a title="Delete User" href="update.php?demail='.$email.'"><b><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></b></a></center></td></tr>';
+                            echo '<tr><td><center>'.$c++.'</center></td><td><center>'.$name.'</center></td><td><center><a title="Delete User" href="update.php?dname='.$name.'"><b><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></b></a></center></td></tr>';
                         }
                         $c=0;
                         echo '</table></div></div>';

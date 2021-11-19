@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 04, 2018 at 08:02 AM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.2
+-- Хост: 127.0.0.1
+-- Время создания: Ноя 19 2021 г., 10:52
+-- Версия сервера: 10.4.21-MariaDB
+-- Версия PHP: 7.4.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,32 +18,32 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `exam`
+-- База данных: `exam`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Структура таблицы `admin`
 --
 
 CREATE TABLE `admin` (
   `admin_id` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `password` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `admin`
+-- Дамп данных таблицы `admin`
 --
 
-INSERT INTO `admin` (`admin_id`, `email`, `password`) VALUES
-(1, 'suryaprasadtripathy8@gmail.com', 'pinkylove');
+INSERT INTO `admin` (`admin_id`, `name`, `password`) VALUES
+(1, 'admin', 'admin');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `answer`
+-- Структура таблицы `answer`
 --
 
 CREATE TABLE `answer` (
@@ -53,7 +52,7 @@ CREATE TABLE `answer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `answer`
+-- Дамп данных таблицы `answer`
 --
 
 INSERT INTO `answer` (`qid`, `ansid`) VALUES
@@ -83,33 +82,32 @@ INSERT INTO `answer` (`qid`, `ansid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `history`
+-- Структура таблицы `history`
 --
 
 CREATE TABLE `history` (
-  `email` varchar(50) NOT NULL,
+  `newid` int(10) UNSIGNED NOT NULL,
+  `name` varchar(50) NOT NULL,
   `eid` text NOT NULL,
   `score` int(11) NOT NULL,
   `level` int(11) NOT NULL,
   `sahi` int(11) NOT NULL,
   `wrong` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `history`
+-- Дамп данных таблицы `history`
 --
 
-INSERT INTO `history` (`email`, `eid`, `score`, `level`, `sahi`, `wrong`, `date`) VALUES
-('suryaprasadtripathy8@gmail.com', '5b141b8009cf0', 22, 10, 8, 2, '2018-06-03 16:56:00'),
-('pinky@gmail.com', '5b141b8009cf0', 30, 10, 10, 0, '2018-06-03 16:57:45'),
-('priyanka@gmail.com', '5b141b8009cf0', 22, 10, 8, 2, '2018-06-03 16:59:06'),
-('suryaprasadtripathy8@gmail.com', '5b141f1e8399e', 26, 10, 9, 1, '2018-06-03 17:17:26');
+INSERT INTO `history` (`newid`, `name`, `eid`, `score`, `level`, `sahi`, `wrong`, `date`) VALUES
+(1, 'Swagatika Padhi', '5b141b8009cf0', 30, 10, 10, 0, '2021-11-17 17:34:22'),
+(2, 'Priyanka Pattnaik', '5b141b8009cf0', 22, 10, 8, 2, '2021-11-17 17:34:47');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `options`
+-- Структура таблицы `options`
 --
 
 CREATE TABLE `options` (
@@ -119,7 +117,7 @@ CREATE TABLE `options` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `options`
+-- Дамп данных таблицы `options`
 --
 
 INSERT INTO `options` (`qid`, `option`, `optionid`) VALUES
@@ -215,7 +213,7 @@ INSERT INTO `options` (`qid`, `option`, `optionid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `questions`
+-- Структура таблицы `questions`
 --
 
 CREATE TABLE `questions` (
@@ -227,7 +225,7 @@ CREATE TABLE `questions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `questions`
+-- Дамп данных таблицы `questions`
 --
 
 INSERT INTO `questions` (`eid`, `qid`, `qns`, `choice`, `sn`) VALUES
@@ -257,7 +255,7 @@ INSERT INTO `questions` (`eid`, `qid`, `qns`, `choice`, `sn`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `quiz`
+-- Структура таблицы `quiz`
 --
 
 CREATE TABLE `quiz` (
@@ -266,11 +264,11 @@ CREATE TABLE `quiz` (
   `sahi` int(11) NOT NULL,
   `wrong` int(11) NOT NULL,
   `total` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `quiz`
+-- Дамп данных таблицы `quiz`
 --
 
 INSERT INTO `quiz` (`eid`, `title`, `sahi`, `wrong`, `total`, `date`) VALUES
@@ -280,69 +278,101 @@ INSERT INTO `quiz` (`eid`, `title`, `sahi`, `wrong`, `total`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rank`
+-- Структура таблицы `rank`
 --
 
 CREATE TABLE `rank` (
-  `email` varchar(50) NOT NULL,
+  `newid` int(10) UNSIGNED NOT NULL,
+  `name` varchar(50) NOT NULL,
   `score` int(11) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `rank`
+-- Дамп данных таблицы `rank`
 --
 
-INSERT INTO `rank` (`email`, `score`, `time`) VALUES
-('pinky@gmail.com', 30, '2018-06-03 16:57:45'),
-('priyanka@gmail.com', 22, '2018-06-03 16:59:06');
+INSERT INTO `rank` (`newid`, `name`, `score`, `time`) VALUES
+(1, 'Swagatika Padhi', 30, '2021-11-17 14:11:32'),
+(2, 'Priyanka Pattnaik', 22, '2021-11-17 14:12:17');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Структура таблицы `user`
 --
 
 CREATE TABLE `user` (
+  `newid` int(10) UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL,
-  `college` varchar(100) NOT NULL,
-  `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- Дамп данных таблицы `user`
 --
 
-INSERT INTO `user` (`name`, `college`, `email`, `password`) VALUES
-('Swagatika Padhi', 'National Institute of Science and Technology, Berhampur', 'pinky@gmail.com', 'pinky'),
-('Priyanka Pattnaik', 'National Institute of Science and Technology, Berhampur', 'priyanka@gmail.com', 'pinka');
+INSERT INTO `user` (`newid`, `name`, `password`) VALUES
+(1, 'Swinten', '12345'),
+(2, 'Swagatika Padhi', 'pinky'),
+(3, 'Priyanka Pattnaik', 'pinka'),
+(9, 'test', 'test');
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `admin`
+-- Индексы таблицы `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`admin_id`);
 
 --
--- Indexes for table `user`
+-- Индексы таблицы `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`newid`);
+
+--
+-- Индексы таблицы `rank`
+--
+ALTER TABLE `rank`
+  ADD PRIMARY KEY (`newid`);
+
+--
+-- Индексы таблицы `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`email`);
+  ADD PRIMARY KEY (`newid`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT для таблицы `admin`
 --
 ALTER TABLE `admin`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `history`
+--
+ALTER TABLE `history`
+  MODIFY `newid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT для таблицы `rank`
+--
+ALTER TABLE `rank`
+  MODIFY `newid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `user`
+--
+ALTER TABLE `user`
+  MODIFY `newid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

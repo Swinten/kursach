@@ -1,37 +1,37 @@
 <?php
     include_once 'database.php';
     session_start();
-    if(isset($_SESSION["email"]))
+    if(isset($_SESSION["name"]))
 	{
 		session_destroy();
     }
     
     $ref=@$_GET['q'];
-    if(isset($_POST['submit']))
+    if(isset($_POST['name']))
 	{	
-        $email = $_POST['email'];
+        $name = $_POST['name'];
         $password = $_POST['password'];
 
-        $email = stripslashes($email);
-        $email = addslashes($email);
+        $name = stripslashes($name);
+        $name = addslashes($name);
         $password = stripslashes($password); 
         $password = addslashes($password);
 
-        $email = mysqli_real_escape_string($con,$email);
+        $name = mysqli_real_escape_string($con,$name);
         $password = mysqli_real_escape_string($con,$password);
         
-        $result = mysqli_query($con,"SELECT email FROM admin WHERE email = '$email' and password = '$password'") or die('Error');
+        $result = mysqli_query($con,"SELECT name FROM admin WHERE name = '$name' and password = '$password'") or die('Error');
         $count=mysqli_num_rows($result);
         if($count==1)
         {
             session_start();
-            if(isset($_SESSION['email']))
+            if(isset($_SESSION['name']))
             {
                 session_unset();
             }
             $_SESSION["name"] = 'Admin';
             $_SESSION["key"] ='admin';
-            $_SESSION["email"] = $email;
+            $_SESSION["name"] = $name;
             header("location:dashboard.php?q=0");
         }
         else
@@ -72,8 +72,8 @@
 						<center> <h5 style="font-family: Noto Sans;">Login to </h5><h4 style="font-family: Noto Sans;">Admin Page</h4></center><br>
 							<form method="post" action="admin.php" enctype="multipart/form-data">
 								<div class="form-group">
-									<label>Enter Your Email Id:</label>
-									<input type="email" name="email" class="form-control">
+									<label>Enter Your Username:</label>
+									<input type="name" name="name" class="form-control">
 								</div>
 								<div class="form-group">
 									<label class="fw">Enter Your Password:

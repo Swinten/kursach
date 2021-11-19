@@ -1,23 +1,23 @@
 <?php
   include_once 'database.php';
   session_start();
-  $email=$_SESSION['email'];
+  $name=$_SESSION['name'];
 
   if(isset($_SESSION['key']))
   {
-    if(@$_GET['demail'] && $_SESSION['key']=='suryapinky') 
+    if(@$_GET['dname'] && $_SESSION['key']=='admin') 
     {
-      $demail=@$_GET['demail'];
-      $r1 = mysqli_query($con,"DELETE FROM rank WHERE email='$demail' ") or die('Error');
-      $r2 = mysqli_query($con,"DELETE FROM history WHERE email='$demail' ") or die('Error');
-      $result = mysqli_query($con,"DELETE FROM user WHERE email='$demail' ") or die('Error');
+      $dname=@$_GET['dname'];
+      $r1 = mysqli_query($con,"DELETE FROM rank WHERE name='$dname' ") or die('Error');
+      $r2 = mysqli_query($con,"DELETE FROM history WHERE name='$dname' ") or die('Error');
+      $result = mysqli_query($con,"DELETE FROM user WHERE name='$dname' ") or die('Error');
       header("location:dashboard.php?q=1");
     }
   }
 
   if(isset($_SESSION['key']))
   {
-    if(@$_GET['q']== 'rmquiz' && $_SESSION['key']=='suryapinky') 
+    if(@$_GET['q']== 'rmquiz' && $_SESSION['key']=='admin') 
     {
       $eid=@$_GET['eid'];
       $result = mysqli_query($con,"SELECT * FROM questions WHERE eid='$eid' ") or die('Error');
@@ -36,7 +36,7 @@
 
   if(isset($_SESSION['key']))
   {
-    if(@$_GET['q']== 'addquiz' && $_SESSION['key']=='suryapinky') 
+    if(@$_GET['q']== 'addquiz' && $_SESSION['key']=='=admin') 
     {
       $name = $_POST['name'];
       $name= ucwords(strtolower($name));
@@ -51,7 +51,7 @@
 
   if(isset($_SESSION['key']))
   {
-    if(@$_GET['q']== 'addqns' && $_SESSION['key']=='suryapinky') 
+    if(@$_GET['q']== 'addqns' && $_SESSION['key']=='admin') 
     {
       $n=@$_GET['n'];
       $eid=@$_GET['eid'];
@@ -90,6 +90,7 @@
 
   if(@$_GET['q']== 'quiz' && @$_GET['step']== 2) 
   {
+    $name=$_SESSION['name'];
     $eid=@$_GET['eid'];
     $sn=@$_GET['n'];
     $total=@$_GET['t'];
@@ -107,9 +108,9 @@
       }
       if($sn == 1)
       {
-        $q=mysqli_query($con,"INSERT INTO history VALUES('$email','$eid' ,'0','0','0','0',NOW())")or die('Error');
+        $q=mysqli_query($con,"INSERT INTO history VALUES('$name','$eid' ,'0','0','0','0',NOW())")or die('Error');
       }
-      $q=mysqli_query($con,"SELECT * FROM history WHERE eid='$eid' AND email='$email' ")or die('Error115');
+      $q=mysqli_query($con,"SELECT * FROM history WHERE eid='$eid' AND name='$name' ")or die('Error115');
       while($row=mysqli_fetch_array($q) )
       {
         $s=$row['score'];
@@ -117,7 +118,7 @@
       }
       $r++;
       $s=$s+$sahi;
-      $q=mysqli_query($con,"UPDATE `history` SET `score`=$s,`level`=$sn,`sahi`=$r, date= NOW()  WHERE  email = '$email' AND eid = '$eid'")or die('Error124');
+      $q=mysqli_query($con,"UPDATE `history` SET `score`=$s,`level`=$sn,`sahi`=$r, date= NOW()  WHERE  name = '$name' AND eid = '$eid'")or die('Error124');
     } 
     else
     {
@@ -128,9 +129,9 @@
       }
       if($sn == 1)
       {
-        $q=mysqli_query($con,"INSERT INTO history VALUES('$email','$eid' ,'0','0','0','0',NOW() )")or die('Error137');
+        $q=mysqli_query($con,"INSERT INTO history VALUES('$name','$eid' ,'0','0','0','0',NOW() )")or die('Error137');
       }
-      $q=mysqli_query($con,"SELECT * FROM history WHERE eid='$eid' AND email='$email' " )or die('Error139');
+      $q=mysqli_query($con,"SELECT * FROM history WHERE eid='$eid' AND name='$name' " )or die('Error139');
       while($row=mysqli_fetch_array($q) )
       {
         $s=$row['score'];
@@ -138,7 +139,7 @@
       }
       $w++;
       $s=$s-$wrong;
-      $q=mysqli_query($con,"UPDATE `history` SET `score`=$s,`level`=$sn,`wrong`=$w, date=NOW() WHERE  email = '$email' AND eid = '$eid'")or die('Error147');
+      $q=mysqli_query($con,"UPDATE `history` SET `score`=$s,`level`=$sn,`wrong`=$w, date=NOW() WHERE  name = '$name' AND eid = '$eid'")or die('Error147');
     }
     if($sn != $total)
     {
@@ -147,16 +148,16 @@
     }
     else if( $_SESSION['key']!='suryapinky')
     {
-      $q=mysqli_query($con,"SELECT score FROM history WHERE eid='$eid' AND email='$email'" )or die('Error156');
+      $q=mysqli_query($con,"SELECT score FROM history WHERE eid='$eid' AND name='$name'" )or die('Error156');
       while($row=mysqli_fetch_array($q) )
       {
         $s=$row['score'];
       }
-      $q=mysqli_query($con,"SELECT * FROM rank WHERE email='$email'" )or die('Error161');
+      $q=mysqli_query($con,"SELECT * FROM rank WHERE name='$name'" )or die('Error161');
       $rowcount=mysqli_num_rows($q);
       if($rowcount == 0)
       {
-        $q2=mysqli_query($con,"INSERT INTO rank VALUES('$email','$s',NOW())")or die('Error165');
+        $q2=mysqli_query($con,"INSERT INTO rank VALUES('$name','$s',NOW())")or die('Error165');
       }
       else
       {
@@ -165,7 +166,7 @@
           $sun=$row['score'];
         }
         $sun=$s+$sun;
-        $q=mysqli_query($con,"UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE email= '$email'")or die('Error174');
+        $q=mysqli_query($con,"UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE name= '$name'")or die('Error174');
       }
       header("location:welcome.php?q=result&eid=$eid");
     }
@@ -180,19 +181,19 @@
     $eid=@$_GET['eid'];
     $n=@$_GET['n'];
     $t=@$_GET['t'];
-    $q=mysqli_query($con,"SELECT score FROM history WHERE eid='$eid' AND email='$email'" )or die('Error156');
+    $q=mysqli_query($con,"SELECT score FROM history WHERE eid='$eid' AND name='$name'" )or die('Error156');
     while($row=mysqli_fetch_array($q) )
     {
       $s=$row['score'];
     }
-    $q=mysqli_query($con,"DELETE FROM `history` WHERE eid='$eid' AND email='$email' " )or die('Error184');
-    $q=mysqli_query($con,"SELECT * FROM rank WHERE email='$email'" )or die('Error161');
+    $q=mysqli_query($con,"DELETE FROM `history` WHERE eid='$eid' AND name='$name' " )or die('Error184');
+    $q=mysqli_query($con,"SELECT * FROM rank WHERE name='$name'" )or die('Error161');
     while($row=mysqli_fetch_array($q) )
     {
       $sun=$row['score'];
     }
     $sun=$sun-$s;
-    $q=mysqli_query($con,"UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE email= '$email'")or die('Error174');
+    $q=mysqli_query($con,"UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE name= '$name'")or die('Error174');
     header("location:welcome.php?q=quiz&step=2&eid=$eid&n=1&t=$t");
   }
 ?>
