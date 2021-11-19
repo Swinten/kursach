@@ -44,7 +44,7 @@
       $sahi = $_POST['right'];
       $wrong = $_POST['wrong'];
       $id=uniqid();
-      $q3=mysqli_query($con,"INSERT INTO quiz VALUES  ('$id','$name' , '$sahi' , '$wrong','$total', NOW())");
+      $q3=mysqli_query($con,"INSERT INTO quiz(eid,title,sahi,wrong,total,date) VALUES  ('$id','$name' , '$sahi' , '$wrong','$total', NOW())");
       header("location:dashboard.php?q=4&step=2&eid=$id&n=$total");
     }
   }
@@ -60,7 +60,7 @@
       {
         $qid=uniqid();
         $qns=$_POST['qns'.$i];
-        $q3=mysqli_query($con,"INSERT INTO questions VALUES  ('$eid','$qid','$qns' , '$ch' , '$i')");
+        $q3=mysqli_query($con,"INSERT INTO questions(eid,qid,qns,choice,sn) VALUES  ('$eid','$qid','$qns' , '$ch' , '$i')");
         $oaid=uniqid();
         $obid=uniqid();
         $ocid=uniqid();
@@ -69,10 +69,10 @@
         $b=$_POST[$i.'2'];
         $c=$_POST[$i.'3'];
         $d=$_POST[$i.'4'];
-        $qa=mysqli_query($con,"INSERT INTO options VALUES  ('$qid','$a','$oaid')") or die('Error61');
-        $qb=mysqli_query($con,"INSERT INTO options VALUES  ('$qid','$b','$obid')") or die('Error62');
-        $qc=mysqli_query($con,"INSERT INTO options VALUES  ('$qid','$c','$ocid')") or die('Error63');
-        $qd=mysqli_query($con,"INSERT INTO options VALUES  ('$qid','$d','$odid')") or die('Error64');
+        $qa=mysqli_query($con,"INSERT INTO options(qid,options,optionid) VALUES  ('$qid','$a','$oaid')") or die('Error61');
+        $qb=mysqli_query($con,"INSERT INTO options(qid,options,optionid) VALUES  ('$qid','$b','$obid')") or die('Error62');
+        $qc=mysqli_query($con,"INSERT INTO options(qid,options,optionid) VALUES  ('$qid','$c','$ocid')") or die('Error63');
+        $qd=mysqli_query($con,"INSERT INTO options(qid,options,optionid) VALUES  ('$qid','$d','$odid')") or die('Error64');
         $e=$_POST['ans'.$i];
         switch($e)
         {
@@ -82,7 +82,7 @@
           case 'd': $ansid=$odid; break;
           default: $ansid=$oaid;
         }
-        $qans=mysqli_query($con,"INSERT INTO answer VALUES  ('$qid','$ansid')");
+        $qans=mysqli_query($con,"INSERT INTO answer(qid,ansid) VALUES  ('$qid','$ansid')");
       }
       header("location:dashboard.php?q=0");
     }
@@ -108,7 +108,7 @@
       }
       if($sn == 1)
       {
-        $q=mysqli_query($con,"INSERT INTO history VALUES('$name','$eid' ,'0','0','0','0',NOW())")or die('Error');
+        $q=mysqli_query($con,"INSERT INTO history(name,eid,score,level,sahi,wrong,date) VALUES('$name','$eid' ,'0','0','0','0',NOW())")or die('Error');
       }
       $q=mysqli_query($con,"SELECT * FROM history WHERE eid='$eid' AND name='$name' ")or die('Error115');
       while($row=mysqli_fetch_array($q) )
@@ -129,7 +129,7 @@
       }
       if($sn == 1)
       {
-        $q=mysqli_query($con,"INSERT INTO history VALUES('$name','$eid' ,'0','0','0','0',NOW() )")or die('Error137');
+        $q=mysqli_query($con,"INSERT INTO history(name,eid,score,level,sahi,wrong,date) VALUES('$name','$eid' ,'0','0','0','0',NOW() )")or die('Error137');
       }
       $q=mysqli_query($con,"SELECT * FROM history WHERE eid='$eid' AND name='$name' " )or die('Error139');
       while($row=mysqli_fetch_array($q) )
@@ -157,7 +157,7 @@
       $rowcount=mysqli_num_rows($q);
       if($rowcount == 0)
       {
-        $q2=mysqli_query($con,"INSERT INTO rank VALUES('$name','$s',NOW())")or die('Error165');
+        $q2=mysqli_query($con,"INSERT INTO rank(name,score,time) VALUES('$name','$s',NOW())")or die('Error165');
       }
       else
       {
